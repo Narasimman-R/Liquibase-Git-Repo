@@ -1,0 +1,13 @@
+# Ignore Liquibase generated files
+liquibase.log
+*.class
+*.jar
+*.war
+*.iml
+
+# Mac specific
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
