@@ -78,3 +78,17 @@ command: liquibase tag v1.0 --url $URL
 
 -- This will mark the current point in the changelog history as v1.0.
 ```
+
+## How to run 
+step 1: set env at local 
+```
+Set env veriable :
+
+Run command: export  URL="jdbc:databricks:<Workspace_URL_without_http>:443;TransportMode=http;SSL=1;\
+     AuthMech=3;UID=token;PWD=<access_token>;\
+     httpPath=<httpPath>;\
+     ConnCatalog=<Catalog_name>;ConnSchema=<schema_name>;\
+     UserAgentEntry=Liquibase;EnableArrow=0"
+
+step 2:
+Run command: liquibase update --url $URL
