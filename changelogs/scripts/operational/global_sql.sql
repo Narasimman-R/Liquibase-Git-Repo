@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset narasimman:operational.batch_control_table context:dev
-CREATE TABLE IF NOT EXISTS operational.batch_control_table (
+CREATE TABLE operational.batch_control_table (
     batch_id STRING NOT NULL,
     pipeline_run_id STRING,
     batch_date date,
@@ -15,4 +15,4 @@ CREATE TABLE IF NOT EXISTS operational.batch_control_table (
 USING DELTA
 COMMENT 'Batch control table to track pipeline execution metadata';
 
---rollback DROP TABLE IF EXISTS operational.batch_control_table;
+--rollback DROP TABLE operational.batch_control_table;
