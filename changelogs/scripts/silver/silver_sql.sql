@@ -13,3 +13,7 @@ CREATE TABLE silver.employee (
 ALTER TABLE silver.employee SET TBLPROPERTIES ('delta.columnMapping.mode' = 'name');
 --rollback -- not supported reversal once column mapping is enabled
 
+--changeset narasimman:rename-department-column context:dev
+ALTER TABLE silver.employee RENAME COLUMN department TO department_store;
+--rollback ALTER TABLE silver.employee RENAME COLUMN department_store TO department;
+
