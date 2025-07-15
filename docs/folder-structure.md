@@ -1,10 +1,10 @@
 # Folder Structure Guide
 
-##  changelogs/
+##  changelogs/scripts/schemaName/sqlfiles
 
 Contains all version-controlled change sets using SQL or XML. Subfolders:
 --Write the SQL commands in the files
--- we have master_changelogs to combine all the sql files
+-- we have master_changelogs.xml to combine all the sql files
 
 ##  drivers/
 
