@@ -12,14 +12,14 @@ GRANT CREATE TABLE ON SCHEMA operational TO `dev_restricted_access_data_engineer
 GRANT MODIFY ON SCHEMA operational TO `dev_restricted_access_data_engineers`;
 GRANT SELECT ON SCHEMA operational TO `dev_restricted_access_data_engineers`;
 
---rollback 
-REVOKE MANAGE ON SCHEMA operational FROM `dev_full_access_data_engineers`;
-REVOKE SELECT ON SCHEMA operational FROM `dev_full_access_data_engineers`;
-REVOKE MODIFY ON SCHEMA operational FROM `dev_full_access_data_engineers`;
-REVOKE CREATE TABLE ON SCHEMA operational FROM `dev_full_access_data_engineers`;
-REVOKE USE SCHEMA ON SCHEMA operational FROM `dev_full_access_data_engineers`;
+-- --rollback 
+-- REVOKE MANAGE ON SCHEMA operational FROM `dev_full_access_data_engineers`;
+-- REVOKE SELECT ON SCHEMA operational FROM `dev_full_access_data_engineers`;
+-- REVOKE MODIFY ON SCHEMA operational FROM `dev_full_access_data_engineers`;
+-- REVOKE CREATE TABLE ON SCHEMA operational FROM `dev_full_access_data_engineers`;
+-- REVOKE USE SCHEMA ON SCHEMA operational FROM `dev_full_access_data_engineers`;
 
-REVOKE SELECT ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
-REVOKE MODIFY ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
-REVOKE CREATE TABLE ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
-REVOKE USE SCHEMA ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
+-- REVOKE SELECT ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
+-- REVOKE MODIFY ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
+-- REVOKE CREATE TABLE ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;
+-- REVOKE USE SCHEMA ON SCHEMA operational FROM `dev_restricted_access_data_engineers`;

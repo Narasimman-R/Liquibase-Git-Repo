@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset narasimman:operational.batch_control_table context:dev
-CREATE TABLE operational.batch_control_table (
+CREATE TABLE IF NOT EXISTS operational.batch_control_table (
     batch_id STRING NOT NULL,
     pipeline_run_id STRING,
     batch_date date,
