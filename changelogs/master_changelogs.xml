@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <!-- <include file="test-table.sql" relativeToChangelogFile="true"/>  -->
+    <include file="scripts/bronze/bronze_sql.sql" relativeToChangelogFile="true"/> 
+    <include file="scripts/silver/silver_sql.sql" relativeToChangelogFile="true"/> 
+    <include file="scripts/operational/global_sql.sql" relativeToChangelogFile="true"/>
+
+    <!-- role based files -->
+    <include file="scripts/gold/roles_sql.sql" relativeToChangelogFile="true"/> 
+    <include file="scripts/operational/roles_sql.sql" relativeToChangelogFile="true"/> 
+    <include file="scripts/sales_and_marketing/roles_sql.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/silver/silver_sql.sql" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
+

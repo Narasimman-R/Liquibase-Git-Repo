@@ -13,10 +13,6 @@ This repository manages version-controlled schema changes using **Liquibase** fo
 | Folder | Description |
 |--------|-------------|
 | `/changelogs` | Contains SQL-based change logs |
-| `/env` | Environment-specific Liquibase config files |
 | `/drivers` | JDBC driver JARs for Databricks |
-| `/scripts` | Utility scripts to run Liquibase |
-| `/pipelines` | Azure DevOps CI/CD YAML definitions |
 | `/docs` | Project documentation |
-
 ---
