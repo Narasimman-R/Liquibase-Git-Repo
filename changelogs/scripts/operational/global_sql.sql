@@ -1,10 +1,9 @@
 --liquibase formatted sql
-
---changeset narasimman:operational.batch_control_table context:dev
+--changeset narasimman:operational.batch_control_table 
 CREATE TABLE operational.batch_control_table (
     batch_id STRING NOT NULL,
     pipeline_run_id STRING,
-    batch_date date,
+    batch_date DATE,
     start_time TIMESTAMP,
     end_time TIMESTAMP,
     status STRING,
@@ -13,6 +12,10 @@ CREATE TABLE operational.batch_control_table (
     business_area STRING
 )
 USING DELTA
-COMMENT 'Batch control table to track pipeline execution metadata';
+TBLPROPERTIES (
+    'delta.columnMapping.mode' = 'name',
+    'delta.enableChangeDataFeed' = 'true',
+    'delta.logRetentionDuration' = 'interval 60 days'
+);
 
 --rollback DROP TABLE operational.batch_control_table;
