@@ -5,14 +5,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
 
-    <!-- <include file="scripts/operational/global_sql.sql" relativeToChangelogFile="true"/> -->
-    <include file="scripts/operational/global_sql.sql" relativeToChangelogFile="true"/>
-
-    <!-- role based files -->
-    <!-- <include file="scripts/gold/roles_sql.sql" relativeToChangelogFile="true"/> 
-    <include file="scripts/operational/roles_sql.sql" relativeToChangelogFile="true"/> 
-    <include file="scripts/sales_and_marketing/roles_sql.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/silver/roles_sql.sql" relativeToChangelogFile="true"/> -->
+    <include file="scripts/global_sql.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
 

@@ -1,11 +1,12 @@
 --liquibase formatted sql
 
---changeset narasimman:create-silver-employee-table 
-CREATE TABLE silver.employee_02 (
+--changeset narasimman:employee context:operational
+CREATE TABLE silver.employee (
     emp_id INT PRIMARY KEY,
     name STRING,
     department STRING
 )
+USING DELTA
 TBLPROPERTIES (
     'delta.columnMapping.mode' = 'name'
 );

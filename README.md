@@ -1,26 +1,54 @@
-# Liquibase Repo
-
-This repository contains Liquibase changelogs, SQL scripts, and environment-specific configurations for managing database schema changes.
-
 # Liquibase Schema Management for Databricks
 
-This repository manages version-controlled schema changes using **Liquibase** for **Databricks**. It supports multi-environment deployments (Dev, QA, Prod) and is CI/CD enabled via Azure DevOps.
+This repository manages database schema changes in **Databricks** using **Liquibase**.  
+It is designed for **version-controlled migrations** and supports **multi-environment deployments** with CI/CD integration via Azure DevOps.
 
+---
+
+## Prerequisites
+
+Before using this repository, ensure the following tools are installed on your system:
+
+### 1. Java (required by Liquibase)
+- Download from [java.com](https://www.java.com/en/download/)  
+- Verify installation:  
+  ```bash
+  java -version
+  ```
+
+### 2. Liquibase CLI
+- Install via Homebrew (Mac):  
+  ```bash
+  brew install liquibase
+  ```
+- Or download from the [Liquibase Download Page](https://www.liquibase.org/download)
+
+### 3. Databricks JDBC Driver
+- Download from [Databricks JDBC Driver](https://www.databricks.com/spark/jdbc-drivers-download)  
+- Place the `.jar` file inside the `/driver` directory.
+
+### 4. Liquibase Databricks Extension
+- Download from [Maven Repository](https://mvnrepository.com/artifact/org.liquibase.ext/liquibase-databricks)  
+- Place the `.jar` file inside the `/driver` directory.
 ---
 
 ## Folder Overview
 
-| Folder | Description |
-|--------|-------------|
-| `/changelogs/scripts` | Contains SQL-based change logs |
-| `/drivers` | JDBC driver JARs for Databricks |
-| `/docs` | Project documentation |
+| Path                   | Description                  |
+| ---------------------- | ---------------------------- |
+| `/changelogs/scripts`  | SQL-based changelogs         |
+| `/driver`              | JDBC driver + Liquibase extension JARs |
+| `liquibase.properties` | Liquibase configuration file |
+| `requirement.txt`      | Python/CLI dependencies      |
+| `README.md`            | Project usage guide          |
+
 ---
 
-# How to Write Liquibase Changelogs
-Liquibase changelogs in SQL format allow you to define database schema changes declaratively. When using Databricks with Delta Lake, special attention is needed for features like columnMapping, rollback support, and schema-specific privileges.
+## Writing Liquibase Changelogs
 
-## SQL Format Example
+All changelogs are **SQL-based** and must follow Liquibase formatting rules.
+
+### Example
 
 ```sql
 --liquibase formatted sql
@@ -34,61 +62,80 @@ CREATE TABLE silver.employee (
 TBLPROPERTIES (
     'delta.columnMapping.mode' = 'name'
 );
+
 --rollback DROP TABLE silver.employee;
 
--- Note: 'delta.columnMapping.mode = name' must be enabled to allow ALTER operations like DROP or RENAME COLUMN on Delta tables.
+-- Note: 'delta.columnMapping.mode = name' must be enabled 
+-- to allow ALTER operations like DROP or RENAME COLUMN on Delta tables.
 ```
-# General Rules:
 
-    Each changeset starts with --changeset author:id
+---
 
-    Each file must begin with --liquibase formatted sql
+## General Rules
 
-    Comments should use standard SQL comment style: -- your comment here
+- Each file must begin with `--liquibase formatted sql`  
+- Each change starts with `--changeset author:id`  
+- Use standard SQL comments: `-- comment here`  
+- Always use fully qualified names: `catalog.schema.table`  
+- Keep **one logical change per changeset** for better rollback and auditing  
 
-    Use fully qualified table names: catalog.schema.table
+---
 
-    Keep one logical change per changeset for better rollback and auditability
-
-# Best Practices:
+## Best Practices
 
 | Guideline                | Recommendation                                                             |
 | ------------------------ | -------------------------------------------------------------------------- |
-| **Author and ID**        | Use meaningful `author:id`, e.g., `narasimman:create-customer-table`       |
-| **Rollback**             | Always include a rollback command, if possible                             |
-| **Column Mapping**       | Use `delta.columnMapping.mode = name` if you plan to rename/drop columns   |
-| **Naming**               | Avoid using duplicate changeset IDs across changelog files                 |
-| **Context** *(optional)* | Add `context:dev` or `context:test` to control environment-specific runs   |
-| **Permissions**          | Use separate changesets for each GRANT/REVOKE for better audit granularity |
+| **Author and ID**        | Use meaningful IDs, e.g., `narasimman:create-customer-table`              |
+| **Rollback**             | Always include rollback statements if possible                            |
+| **Column Mapping**       | Use `delta.columnMapping.mode = name` if renaming/dropping columns         |
+| **Naming**               | Avoid duplicate changeset IDs across files                                |
+| **Context** *(optional)* | Use contexts (`context:dev`, `context:test`) for environment-specific runs |
+| **Permissions**          | Use separate changesets for each `GRANT`/`REVOKE` for auditability         |
 
-## Rollback
+---
+
+## Rollback Example
+
 ```sql
 --changeset narasimman:add-index-to-employee
 CREATE INDEX emp_name_idx ON silver.employee (name);
+
 --rollback DROP INDEX emp_name_idx;
--- Note: add rollback command enable rollback feature.
+-- Note: rollback command enables undo capability.
 ```
 
+---
 
 ## Tagging Example (CLI)
-```sql
--- You can tag important versions during deployment:
 
-command: liquibase tag v1.0 --url $URL
+You can tag important versions during deployment:
 
--- This will mark the current point in the changelog history as v1.0.
+```bash
+liquibase tag v1.0 --url $URL
 ```
 
-## How to run 
-step 1: set env at local 
+This will mark the current point in the changelog history as `v1.0`.
+
+---
+
+## Running Liquibase
+
+### Step 1 — Set environment variables (Databricks JDBC URL)
+
+```bash
+export URL="jdbc:databricks://<Workspace_URL_without_http>:443;TransportMode=http;SSL=1;\
+AuthMech=3;UID=token;PWD=<access_token>;\
+httpPath=<httpPath>;\
+ConnCatalog=<Catalog_name>;ConnSchema=<Schema_name>;\
+UserAgentEntry=Liquibase;EnableArrow=0"
 ```
-Set env veriable :
 
-Run command: export  URL="jdbc:databricks:<Workspace_URL_without_http>:443;TransportMode=http;SSL=1;\
-     AuthMech=3;UID=token;PWD=<access_token>;\
-     httpPath=<httpPath>;\
-     ConnCatalog=<Catalog_name>;ConnSchema=<schema_name>;\
-     UserAgentEntry=Liquibase;EnableArrow=0"
+### Step 2 — Run update command
 
-step 2:
-Run command: liquibase update --url $URL
+```bash
+liquibase update --url $URL
+```
+
+---
+
+That’s it! You are ready to manage schema changes in **Databricks** with **Liquibase**.
