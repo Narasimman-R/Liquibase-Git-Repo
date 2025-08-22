@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset narasimman:create-silver-employee-table
+--changeset narasimman:create-silver-employee-table 
 CREATE TABLE silver.employee_02 (
     emp_id INT PRIMARY KEY,
     name STRING,
